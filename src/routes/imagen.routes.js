@@ -9,6 +9,7 @@ const routes = express.Router();
 routes.post("/imagenes", upload.single("imagen"), imagenController.createImagen);
 routes.get("/imagenes", imagenController.getImagenes);
 routes.delete("/imagenes/:id", imagenController.deleteImagenById);
+routes.get("/imagenes/all", imagenController.getImagenesAll);
 
 // routes.get("/imagenes/:id", imagenController.getImagenById);
 // routes.put("/imagenes/:id", imagenController.updateImagenById);

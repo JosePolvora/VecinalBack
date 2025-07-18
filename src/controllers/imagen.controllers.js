@@ -59,34 +59,55 @@ async function getImagenes(req, res) {
 }
 
 async function deleteImagenById(req, res) {
-  const id = req.params.id;
+    const id = req.params.id;
 
-  try {
-    const eliminado = await dbcvecinal.Imagen.destroy({
-      where: { id },
-    });
+    try {
+        const eliminado = await dbcvecinal.Imagen.destroy({
+            where: { id },
+        });
 
-    res.status(204).json({
-      ok: true,
-      status: 204,
-      body: eliminado,
-    });
+        res.status(204).json({
+            ok: true,
+            status: 204,
+            body: eliminado,
+        });
 
-  } catch (error) {
-    res.status(500).json({
-      ok: false,
-      status: 500,
-      message: error.message,
-    });
-  }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            status: 500,
+            message: error.message,
+        });
+    }
 }
 
+async function getImagenesAll(req, res) {
+    try {
+        const imagenes = await dbcvecinal.Imagen.findAll({
+            order: [['id', 'DESC']],
+        });
+
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: imagenes,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            status: 500,
+            message: error.message,
+        });
+    }
+}
 
 
 module.exports = {
     createImagen,
     getImagenes,
     deleteImagenById,
+    getImagenesAll,
 };
 
 
