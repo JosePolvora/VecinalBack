@@ -30,8 +30,9 @@ dbcvecinal.sequelize
         console.error('ERROR EN SINCRONIZACIÓN DE BASE DE DATOS:', err);
     });
 
-const PUERTO = 3000;
+const PUERTO = process.env.PUERTO || 3000;
 
 app.listen(PUERTO, () => {
     console.log(`Servidor escuchando en el puerto ${PUERTO}...`);
 });
+

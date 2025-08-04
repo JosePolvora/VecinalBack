@@ -49,6 +49,8 @@ async function createReclamo(req, res) {
             telefono: dataReclamos.telefono,
             asunto: dataReclamos.asunto,
             descripcion: dataReclamos.descripcion,
+            fecha: dataReclamos.fecha,
+            estado: req.body.estado || 'Pendiente',
             numeroReclamo, // guardar el número generado
         });
 
@@ -124,6 +126,7 @@ async function updateReclamoById(req, res) {
                 telefono: dataReclamos.telefono,
                 asunto: dataReclamos.asunto,
                 descripcion: dataReclamos.descripcion,
+                fecha: dataReclamos.fecha,
             },
             {
                 where: { id: id },
@@ -197,6 +200,42 @@ async function obtenerReclamoPorNumero(req, res) {
     }
 }
 
+
+
+async function actualizarEstadoReclamo(req, res) {
+    const id = req.params.id;
+    const { estado } = req.body;
+
+    try {
+        const reclamo = await dbcvecinal.Reclamo.findByPk(id);
+
+        if (!reclamo) {
+            return res.status(404).json({
+                ok: false,
+                message: "Reclamo no encontrado",
+            });
+        }
+
+        reclamo.estado = estado;
+        await reclamo.save();
+
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            message: "Estado del reclamo actualizado",
+            body: reclamo,
+        });
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            status: 500,
+            message: error.message,
+        });
+    }
+}
+
+
+
 module.exports = {
     createReclamo,
     getReclamos,
@@ -204,4 +243,5 @@ module.exports = {
     updateReclamoById,
     deleteReclamoById,
     obtenerReclamoPorNumero,
+    actualizarEstadoReclamo,
 };

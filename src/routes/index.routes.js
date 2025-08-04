@@ -21,4 +21,8 @@ routes.use("/", usuarioRoutes);
 const mensajeRoutes = require("./mensaje.routes");
 routes.use("/", mensajeRoutes);
 
+// NUEVA RUTA PARA AI
+const airoutes = require("./ai.routes");
+routes.use("/ai", airoutes);
+
 module.exports = routes;

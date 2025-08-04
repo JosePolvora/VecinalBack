@@ -9,9 +9,8 @@ routes.get("/reclamos", reclamoController.getReclamos);
 routes.get("/reclamos/:id", reclamoController.getReclamoById);
 routes.get("/reclamos/numero/:numero", reclamoController.obtenerReclamoPorNumero);
 
-
-
 routes.put("/reclamos/:id", reclamoController.updateReclamoById);
+routes.put('/reclamos/:id/estado', reclamoController.actualizarEstadoReclamo);
 
 routes.delete("/reclamos/:id", reclamoController.deleteReclamoById);
 

@@ -55,6 +55,12 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: 'Pendiente',
         },
 
+        fecha: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        }
+
     }, {
         tableName: 'reclamos',
         timestamps: false
