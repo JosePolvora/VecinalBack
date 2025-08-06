@@ -1,5 +1,5 @@
 const dbcvecinal = require("../models/index.models");
-//const { convert } = require("pdf-poppler");
+const { convert } = require("pdf-poppler");
 const path = require("path");
 const fs = require("fs");
 
@@ -47,15 +47,15 @@ async function createRevista(req, res) {
 
     // Opciones para conversión
 
-    // const opts = {
-    //     format: "jpeg",
-    //     out_dir: outputDir,
-    //     out_prefix: "pagina",
-    //     page: null,
-    //     resolution: 150
-    // };
+    const opts = {
+      format: "jpeg",
+      out_dir: outputDir,
+      out_prefix: "pagina",
+      page: null,
+      resolution: 150,
+    };
 
-    // await convert(pdfPath, opts);
+    await convert(pdfPath, opts);
 
     // Listar archivos generados
     const archivos = fs.readdirSync(outputDir);
