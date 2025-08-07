@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
-  const Imagen = sequelize.define(
-    "Imagen",
+  const Banner = sequelize.define(
+    "Banner",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,14 +15,21 @@ module.exports = (sequelize, Sequelize) => {
       },
       descripcion: {
         type: DataTypes.STRING,
+      },
+      tipo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      link: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
     },
     {
-      tableName: "imagenes",
-      timestamps: false,
+      tableName: "banners",
+      timestamps: true,
     }
   );
 
-  return Imagen;
+  return Banner;
 };

@@ -12,7 +12,7 @@ async function createImagen(req, res) {
             });
         }
 
-        const imagen_url = `/uploads/${req.file.filename}`;
+        const imagen_url = `/uploads/galeria/${req.file.filename}`;
 
         const nuevaImagen = await dbcvecinal.Imagen.create({
             imagen_url,

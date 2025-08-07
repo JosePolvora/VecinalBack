@@ -21,6 +21,10 @@ routes.use("/", usuarioRoutes);
 const mensajeRoutes = require("./mensaje.routes");
 routes.use("/", mensajeRoutes);
 
+const bannerRoutes = require("./banner.routes");
+routes.use("/", bannerRoutes);
+
+
 // NUEVA RUTA PARA AI
 const airoutes = require("./ai.routes");
 routes.use("/ai", airoutes);

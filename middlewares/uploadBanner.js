@@ -1,16 +1,17 @@
+// uploadBanner.js
+
 const multer = require("multer");
 const path = require("path");
 
-// __dirname = middlewares/
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public/uploads")); // 👈 corregido
+    cb(null, path.join(__dirname, "../public/uploads/banners"));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
-const upload = multer({ storage });
+const uploadBanner = multer({ storage });
 
-module.exports = upload;
+module.exports = uploadBanner;
