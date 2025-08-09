@@ -12,7 +12,7 @@ async function createNovedad(req, res) {
       });
     }
 
-    const imagen_url = `/uploads/${req.file.filename}`;
+    const imagen_url = `/uploads/galeria/${req.file.filename}`;
 
     const nuevaNovedad = await dbcvecinal.Novedad.create({
       titulo,
@@ -27,7 +27,6 @@ async function createNovedad(req, res) {
       message: "Novedad creada con imagen",
       body: nuevaNovedad,
     });
-
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -46,7 +45,6 @@ async function getNovedades(req, res) {
       status: 200,
       body: novedades,
     });
-
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -69,7 +67,6 @@ async function getNovedadById(req, res) {
       status: 200,
       body: novedad,
     });
-
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -101,7 +98,6 @@ async function updateNovedadById(req, res) {
       status: 200,
       body: actualizada,
     });
-
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -124,7 +120,6 @@ async function deleteNovedadById(req, res) {
       status: 204,
       body: eliminado,
     });
-
   } catch (error) {
     res.status(500).json({
       ok: false,
