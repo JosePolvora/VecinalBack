@@ -4,11 +4,11 @@ const uploadRevista = require("../../middlewares/uploadRevista");
 
 const routes = express.Router();
 
-routes.post(
-  "/revistas",
-  uploadRevista.single("pdf"),
-  revistaController.createRevista
-);
+// routes.post(
+//   "/revistas",
+//   uploadRevista.single("pdf"),
+//   revistaController.createRevista
+// );
 
 routes.get("/revistas", revistaController.getRevistas);
 

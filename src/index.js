@@ -1,4 +1,4 @@
-require('dotenv').config();  // <--- Aquí va, al principio
+require("dotenv").config(); // <--- Aquí va, al principio
 
 const express = require("express");
 const cors = require("cors");
@@ -31,8 +31,14 @@ dbcvecinal.sequelize
     console.error("ERROR EN SINCRONIZACIÓN DE BASE DE DATOS:", err);
   });
 
+// const PUERTO = process.env.PORT || 3000;
+
+// app.listen(PUERTO, () => {
+//   console.log(`Servidor escuchando en el puerto ${PUERTO}...`);
+// });
+
 const PUERTO = process.env.PORT || 3000;
 
-app.listen(PUERTO, () => {
+app.listen(PUERTO, "0.0.0.0", () => {
   console.log(`Servidor escuchando en el puerto ${PUERTO}...`);
 });
