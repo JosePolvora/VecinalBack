@@ -1,90 +1,90 @@
 const dbcvecinal = require("../models/index.models");
-const { convert } = require("pdf-poppler");
+//const { convert } = require("pdf-poppler");
 const path = require("path");
 const fs = require("fs");
 
 // Crear revista y convertir a imágenes
 
-async function createRevista(req, res) {
-  try {
-    const { descripcion, mes } = req.body;
+// async function createRevista(req, res) {
+//   try {
+//     const { descripcion, mes } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({
-        ok: false,
-        status: 400,
-        message: "No se envió ningún archivo PDF.",
-      });
-    }
+//     if (!req.file) {
+//       return res.status(400).json({
+//         ok: false,
+//         status: 400,
+//         message: "No se envió ningún archivo PDF.",
+//       });
+//     }
 
-    const pdfPath = req.file.path;
-    const pdf_url = `/uploads/revistas/${req.file.filename}`;
-    console.log("📄 PDF recibido en:", pdfPath);
+//     const pdfPath = req.file.path;
+//     const pdf_url = `/uploads/revistas/${req.file.filename}`;
+//     console.log("📄 PDF recibido en:", pdfPath);
 
-    // Carpeta para guardar las imágenes
-    const nombreCarpeta = mes.toLowerCase().replace(/\s+/g, "_");
-    const outputDir = path.join(
-      __dirname,
-      "..",
-      "..",
-      "public",
-      "uploads",
-      "revistas",
-      "paginas",
-      nombreCarpeta
-    );
+//     // Carpeta para guardar las imágenes
+//     const nombreCarpeta = mes.toLowerCase().replace(/\s+/g, "_");
+//     const outputDir = path.join(
+//       __dirname,
+//       "..",
+//       "..",
+//       "public",
+//       "uploads",
+//       "revistas",
+//       "paginas",
+//       nombreCarpeta
+//     );
 
-    const paginas_carpeta = `/uploads/revistas/paginas/${nombreCarpeta}`;
+//     const paginas_carpeta = `/uploads/revistas/paginas/${nombreCarpeta}`;
 
-    console.log("📁 Carpeta de salida para imágenes:", outputDir);
+//     console.log("📁 Carpeta de salida para imágenes:", outputDir);
 
-    // Crear carpeta si no existe
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-      //console.log("✅ Carpeta creada:", outputDir);
-    } else {
-      //console.log("📁 Carpeta ya existe:", outputDir);
-    }
+//     // Crear carpeta si no existe
+//     if (!fs.existsSync(outputDir)) {
+//       fs.mkdirSync(outputDir, { recursive: true });
+//       //console.log("✅ Carpeta creada:", outputDir);
+//     } else {
+//       //console.log("📁 Carpeta ya existe:", outputDir);
+//     }
 
-    // Opciones para conversión
+//     // Opciones para conversión
 
-    const opts = {
-      format: "jpeg",
-      out_dir: outputDir,
-      out_prefix: "pagina",
-      page: null,
-      resolution: 150,
-    };
+//     const opts = {
+//       format: "jpeg",
+//       out_dir: outputDir,
+//       out_prefix: "pagina",
+//       page: null,
+//       resolution: 150,
+//     };
 
-    await convert(pdfPath, opts);
+//     await convert(pdfPath, opts);
 
-    // Listar archivos generados
-    const archivos = fs.readdirSync(outputDir);
-    //console.log("📦 Archivos generados:", archivos);
+//     // Listar archivos generados
+//     const archivos = fs.readdirSync(outputDir);
+//     //console.log("📦 Archivos generados:", archivos);
 
-    // Crear registro en la DB
-    const nuevaRevista = await dbcvecinal.Revista.create({
-      mes,
-      pdf_url,
-      paginas_carpeta,
-      descripcion,
-    });
+//     // Crear registro en la DB
+//     const nuevaRevista = await dbcvecinal.Revista.create({
+//       mes,
+//       pdf_url,
+//       paginas_carpeta,
+//       descripcion,
+//     });
 
-    res.status(201).json({
-      ok: true,
-      status: 201,
-      message: "Revista creada correctamente",
-      body: nuevaRevista,
-    });
-  } catch (error) {
-    console.error("❌ Error en createRevista:", error);
-    res.status(500).json({
-      ok: false,
-      status: 500,
-      message: error.message,
-    });
-  }
-}
+//     res.status(201).json({
+//       ok: true,
+//       status: 201,
+//       message: "Revista creada correctamente",
+//       body: nuevaRevista,
+//     });
+//   } catch (error) {
+//     console.error("❌ Error en createRevista:", error);
+//     res.status(500).json({
+//       ok: false,
+//       status: 500,
+//       message: error.message,
+//     });
+//   }
+// }
 
 
 // Obtener todas las revistas
@@ -195,7 +195,7 @@ async function updaterRevistaById(req, res) {
 }
 
 module.exports = {
-  createRevista,
+  //createRevista,
   getRevistas,
   getRevistaById,
   deleteRevistaById,
