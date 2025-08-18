@@ -48,6 +48,13 @@ async function createRevista(req, res) {
       fs.renameSync(file.path, newPath);
     });
 
+    // 👇 Agregar este console.log para ver qué datos se van a guardar
+    console.log({
+      mes,
+      descripcion,
+      paginas_carpeta,
+    });
+
     // Guardar en la base de datos
     const nuevaRevista = await dbcvecinal.Revista.create({
       mes,
