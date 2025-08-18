@@ -2,6 +2,7 @@ const dbcvecinal = require("../models/index.models");
 const path = require("path");
 const fs = require("fs");
 
+// Crear revista con múltiples imágenes
 async function createRevista(req, res) {
   try {
     const { descripcion, mes } = req.body;
@@ -48,12 +49,16 @@ async function createRevista(req, res) {
       fs.renameSync(file.path, newPath);
     });
 
-    // 👇 Agregar este console.log para ver qué datos se van a guardar
-    console.log({
-      mes,
-      descripcion,
-      paginas_carpeta,
-    });
+    // 🚨 LOGS para depuración
+    console.log("===== LOG REVISTA =====");
+    console.log("Mes recibido:", mes);
+    console.log("Descripción recibida:", descripcion);
+    console.log("Carpeta de páginas:", paginas_carpeta);
+    console.log(
+      "Archivos subidos:",
+      req.files.map((f) => f.originalname)
+    );
+    console.log("=======================");
 
     // Guardar en la base de datos
     const nuevaRevista = await dbcvecinal.Revista.create({
@@ -77,8 +82,6 @@ async function createRevista(req, res) {
     });
   }
 }
-
-module.exports = { createRevista };
 
 // Obtener todas las revistas
 async function getRevistas(req, res) {
