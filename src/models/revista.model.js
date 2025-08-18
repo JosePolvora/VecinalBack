@@ -41,6 +41,7 @@
 // };
 
 
+
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
@@ -53,18 +54,13 @@ module.exports = (sequelize, Sequelize) => {
         autoIncrement: true,
       },
       mes: {
-        type: DataTypes.STRING, // Ejemplo: "2025-08"
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      pdf_url: {
-        type: DataTypes.STRING,
-        allowNull: true, // ya no es obligatorio
-        defaultValue: "",
-      },
       paginas_carpeta: {
         type: DataTypes.STRING,
-        allowNull: false, // carpeta donde se guardan las imágenes
+        allowNull: false,
       },
       descripcion: {
         type: DataTypes.STRING,
