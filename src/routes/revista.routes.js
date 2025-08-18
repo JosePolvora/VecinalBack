@@ -28,11 +28,9 @@ const uploadRevista = require("../../middlewares/uploadRevista");
 const routes = express.Router();
 
 // Subir revista con varias imágenes
-routes.post(
-  "/revistas",
-  uploadRevista.array("imagenes", 20), // hasta 20 imágenes de una sola vez
-  revistaController.createRevista
-);
+
+routes.post("/revistas", uploadRevista, revistaController.createRevista);
+
 
 routes.get("/revistas", revistaController.getRevistas);
 

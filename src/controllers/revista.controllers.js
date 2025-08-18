@@ -2,19 +2,12 @@ const dbcvecinal = require("../models/index.models");
 const path = require("path");
 const fs = require("fs");
 
-// const { fromPath } = require("pdf2pic");
-// const pdfParse = require("pdf-parse");
-
-
-// const dbcvecinal = require("../models/index.models");
-// const path = require("path");
-// const fs = require("fs");
-
 // Crear revista con imágenes
 async function createRevista(req, res) {
   try {
     const { descripcion, mes } = req.body;
 
+    // Validar que se hayan subido imágenes
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         ok: false,
@@ -27,7 +20,7 @@ async function createRevista(req, res) {
     const nombreCarpeta = mes.toLowerCase().replace(/\s+/g, "_");
     const paginas_carpeta = `/uploads/revistas/paginas/${nombreCarpeta}`;
 
-    // Crear carpeta física si no existe
+    // Carpeta física donde se guardarán las imágenes
     const outputDir = path.join(
       __dirname,
       "..",
@@ -38,15 +31,17 @@ async function createRevista(req, res) {
       "paginas",
       nombreCarpeta
     );
+
+    // Crear carpeta si no existe
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-    // Mover imágenes subidas a la carpeta de la revista
+    // Mover cada imagen desde tmp a la carpeta final
     req.files.forEach((file, index) => {
       const newPath = path.join(outputDir, `${index + 1}_${file.originalname}`);
       fs.renameSync(file.path, newPath);
     });
 
-    // Guardar en BD
+    // Guardar registro en la base de datos
     const nuevaRevista = await dbcvecinal.Revista.create({
       mes,
       descripcion,
@@ -57,7 +52,7 @@ async function createRevista(req, res) {
     res.status(201).json({
       ok: true,
       status: 201,
-      message: "Revista creada correctamente con imágenes",
+      message: "✅ Revista creada correctamente con imágenes",
       body: nuevaRevista,
     });
   } catch (error) {
@@ -69,22 +64,6 @@ async function createRevista(req, res) {
     });
   }
 }
-
-module.exports = {
-  createRevista,
-};
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Función para obtener el total de páginas de un PDF
