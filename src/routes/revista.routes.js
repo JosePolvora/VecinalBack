@@ -1,14 +1,14 @@
 const express = require("express");
 const revistaController = require("../controllers/revista.controllers");
-//const uploadRevista = require("../../middlewares/uploadRevista");
+const uploadRevista = require("../../middlewares/uploadRevista");
 
 const routes = express.Router();
 
-// routes.post(
-//   "/revistas",
-//   uploadRevista.single("pdf"),
-//   revistaController.createRevista
-// );
+routes.post(
+  "/revistas",
+  uploadRevista.single("pdf"),
+  revistaController.createRevista
+);
 
 routes.get("/revistas", revistaController.getRevistas);
 
