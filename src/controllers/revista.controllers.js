@@ -3,10 +3,12 @@ const path = require("path");
 const fs = require("fs");
 
 // Crear revista con múltiples imágenes
+
 async function createRevista(req, res) {
   try {
     const { descripcion, mes } = req.body;
 
+    // Verificar que haya archivos
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         ok: false,
@@ -16,9 +18,7 @@ async function createRevista(req, res) {
     }
 
     // Verificar si ya existe revista con ese mes
-    const revistaExistente = await dbcvecinal.Revista.findOne({
-      where: { mes },
-    });
+    const revistaExistente = await dbcvecinal.Revista.findOne({ where: { mes } });
     if (revistaExistente) {
       return res.status(400).json({
         ok: false,
@@ -30,7 +30,6 @@ async function createRevista(req, res) {
     // Carpeta para las imágenes
     const nombreCarpeta = mes.toLowerCase().replace(/\s+/g, "_");
     const paginas_carpeta = `/uploads/revistas/paginas/${nombreCarpeta}`;
-
     const outputDir = path.join(
       __dirname,
       "..",
@@ -41,15 +40,23 @@ async function createRevista(req, res) {
       "paginas",
       nombreCarpeta
     );
-    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+    // Crear carpeta si no existe
+    if (!fs.existsSync(outputDir)) {
+      console.log("La carpeta no existe, creando:", outputDir);
+      fs.mkdirSync(outputDir, { recursive: true });
+    } else {
+      console.log("La carpeta ya existe:", outputDir);
+    }
 
     // Mover imágenes a carpeta final
     req.files.forEach((file, index) => {
       const newPath = path.join(outputDir, `${index + 1}_${file.originalname}`);
+      console.log(`Moviendo archivo ${file.originalname} -> ${newPath}`);
       fs.renameSync(file.path, newPath);
     });
 
-    // 🚨 LOGS para depuración
+    // LOGS de depuración
     console.log("===== LOG REVISTA =====");
     console.log("Mes recibido:", mes);
     console.log("Descripción recibida:", descripcion);
