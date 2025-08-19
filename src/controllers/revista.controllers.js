@@ -18,7 +18,9 @@ async function createRevista(req, res) {
     }
 
     // Verificar si ya existe revista con ese mes
-    const revistaExistente = await dbcvecinal.Revista.findOne({ where: { mes } });
+    const revistaExistente = await dbcvecinal.Revista.findOne({
+      where: { mes },
+    });
     if (revistaExistente) {
       return res.status(400).json({
         ok: false,
@@ -112,6 +114,34 @@ async function getRevistas(req, res) {
 }
 
 // Obtener una revista por ID
+// async function getRevistaById(req, res) {
+//   try {
+//     const { id } = req.params;
+//     const revista = await dbcvecinal.Revista.findByPk(id);
+
+//     if (!revista) {
+//       return res.status(404).json({
+//         ok: false,
+//         status: 404,
+//         message: "Revista no encontrada",
+//       });
+//     }
+
+//     res.status(200).json({
+//       ok: true,
+//       status: 200,
+//       body: revista,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       ok: false,
+//       status: 500,
+//       message: error.message,
+//     });
+//   }
+// }
+
+// Obtener una revista por ID con sus imágenes
 async function getRevistaById(req, res) {
   try {
     const { id } = req.params;
@@ -125,10 +155,29 @@ async function getRevistaById(req, res) {
       });
     }
 
+    // Carpeta absoluta
+    const carpetaPath = path.join(
+      __dirname,
+      "../public",
+      revista.paginas_carpeta
+    );
+
+    // Obtener archivos de la carpeta
+    let imagenes = [];
+    if (fs.existsSync(carpetaPath)) {
+      imagenes = fs
+        .readdirSync(carpetaPath)
+        .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file)) // solo imágenes
+        .map((file) => `${revista.paginas_carpeta}/${file}`); // devolver ruta pública
+    }
+
     res.status(200).json({
       ok: true,
       status: 200,
-      body: revista,
+      body: {
+        ...revista.dataValues,
+        imagenes,
+      },
     });
   } catch (error) {
     res.status(500).json({
