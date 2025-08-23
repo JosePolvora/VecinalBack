@@ -10,6 +10,9 @@ routes.post("/revistas", uploadRevista, revistaController.createRevista);
 
 routes.get("/revistas", revistaController.getRevistas);
 
+routes.get("/revistas/all", revistaController.getRevistas);
+
+
 routes.get("/revistas/:id", revistaController.getRevistaById);
 
 routes.delete("/revistas/:id", revistaController.deleteRevistaById);
