@@ -73,16 +73,56 @@ async function createRevista(req, res) {
 }
 
 // Obtener todas las revistas
+// async function getRevistas(req, res) {
+//   try {
+//     const revistas = await dbcvecinal.Revista.findAll({
+//       order: [["creado_en", "DESC"]],
+//     });
+
+//     res.status(200).json({
+//       ok: true,
+//       status: 200,
+//       body: revistas,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       ok: false,
+//       status: 500,
+//       message: error.message,
+//     });
+//   }
+// }
+
 async function getRevistas(req, res) {
   try {
     const revistas = await dbcvecinal.Revista.findAll({
       order: [["creado_en", "DESC"]],
     });
 
+    const revistasConImagenes = revistas.map((revista) => {
+      const carpetaPath = path.join(
+        __dirname,
+        "..",
+        "..",
+        "public",
+        revista.paginas_carpeta
+      );
+
+      let imagenes = [];
+      if (fs.existsSync(carpetaPath)) {
+        imagenes = fs
+          .readdirSync(carpetaPath)
+          .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+          .map((file) => `${revista.paginas_carpeta}/${file}`);
+      }
+
+      return { ...revista.dataValues, imagenes };
+    });
+
     res.status(200).json({
       ok: true,
       status: 200,
-      body: revistas,
+      body: revistasConImagenes,
     });
   } catch (error) {
     res.status(500).json({
