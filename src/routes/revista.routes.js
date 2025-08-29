@@ -19,4 +19,7 @@ routes.delete("/revistas/:id", revistaController.deleteRevistaById);
 
 routes.put("/revistas/:id", revistaController.updaterRevistaById);
 
+routes.get("/revistas/:id/download", revistaController.downloadRevista);
+
+
 module.exports = routes;
