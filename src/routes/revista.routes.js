@@ -12,6 +12,7 @@ routes.get("/revistas", revistaController.getRevistas);
 
 routes.get("/revistas/all", revistaController.getRevistas);
 
+routes.get("/revistas/:id/download", revistaController.downloadRevista);
 
 routes.get("/revistas/:id", revistaController.getRevistaById);
 
@@ -19,7 +20,6 @@ routes.delete("/revistas/:id", revistaController.deleteRevistaById);
 
 routes.put("/revistas/:id", revistaController.updaterRevistaById);
 
-routes.get("/revistas/:id/download", revistaController.downloadRevista);
 
 
 module.exports = routes;
