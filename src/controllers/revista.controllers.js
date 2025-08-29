@@ -4,7 +4,6 @@ const fsp = require("fs/promises");
 const fs = require("fs"); // lo dejamos para usar existsSync si hace falta
 const archiver = require("archiver");
 
-
 // Crear revista con múltiples imágenes
 async function createRevista(req, res) {
   try {
@@ -53,7 +52,10 @@ async function createRevista(req, res) {
     // Mover imágenes a carpeta final con el nombre original
     await Promise.all(
       req.files.map((file, index) => {
-        const newPath = path.join(outputDir, `${index + 1}_${file.originalname}`);
+        const newPath = path.join(
+          outputDir,
+          `${index + 1}_${file.originalname}`
+        );
         return fsp.rename(file.path, newPath);
       })
     );
@@ -246,7 +248,6 @@ async function updaterRevistaById(req, res) {
   }
 }
 
-
 async function downloadRevista(req, res) {
   try {
     const { id } = req.params;
@@ -254,22 +255,32 @@ async function downloadRevista(req, res) {
 
     if (!revista) return res.status(404).send("Revista no encontrada");
 
-    const carpetaPath = path.join(__dirname, "..", "..", "public", revista.paginas_carpeta);
+    // Ruta correcta de la carpeta de imágenes
+    const carpetaPath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "public",
+      revista.paginas_carpeta
+    );
 
     res.setHeader("Content-Type", "application/zip");
-    res.setHeader("Content-Disposition", `attachment; filename=${revista.mes}.zip`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${revista.mes}.zip`
+    );
 
     const archive = archiver("zip", { zlib: { level: 9 } });
     archive.on("error", (err) => res.status(500).send({ error: err.message }));
 
     archive.pipe(res);
-    archive.directory(carpetaPath, false);
+    archive.directory(carpetaPath, false); // Añade todos los archivos de la carpeta
     await archive.finalize();
   } catch (error) {
+    console.error("Error en downloadRevista:", error);
     res.status(500).json({ ok: false, message: error.message });
   }
 }
-
 
 module.exports = {
   createRevista,
