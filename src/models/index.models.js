@@ -14,6 +14,7 @@ dbcvecinal.Revista = require('./revista.model')(sequelize, Sequelize);
 dbcvecinal.Usuario = require('./usuario.model')(sequelize, Sequelize);
 dbcvecinal.Mensaje = require('./mensaje.model')(sequelize, Sequelize);
 dbcvecinal.Banner = require('./banner.model')(sequelize, Sequelize);
+dbcvecinal.Mascota = require('./mascota.model')(sequelize, Sequelize);
 
 // No definimos relaciones por ahora
 
