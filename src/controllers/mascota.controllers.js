@@ -2,21 +2,36 @@ const dbcvecinal = require("../models/index.models");
 
 async function createMascota(req, res) {
   try {
-    const { titulo, descripcion, fecha } = req.body;
+    const {
+      nombre,
+      tipo,
+      raza,
+      edad,
+      sexo,
+      tamano,
+      condicion,
+      lugar,
+      contacto_nombre,
+      contacto_telefono,
+      fecha,
+    } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({
-        ok: false,
-        status: 400,
-        message: "No se envió ninguna imagen.",
-      });
-    }
-
-    const imagen_url = `/uploads/galeria/${req.file.filename}`;
+    //Si no hay imagen, dejamos imagen_url como null
+    const imagen_url = req.file
+      ? `/uploads/galeria/${req.file.filename}`
+      : null;
 
     const nuevaMascota = await dbcvecinal.Mascota.create({
-      titulo,
-      descripcion,
+      nombre,
+      tipo,
+      raza,
+      edad,
+      sexo,
+      tamano,
+      condicion,
+      lugar,
+      contacto_nombre,
+      contacto_telefono,
       fecha: fecha || new Date(),
       imagen_url,
     });
@@ -62,6 +77,14 @@ async function getMascotaById(req, res) {
       where: { id },
     });
 
+    if (!mascota) {
+      return res.status(404).json({
+        ok: false,
+        status: 404,
+        message: "Mascota no encontrada",
+      });
+    }
+
     res.status(200).json({
       ok: true,
       status: 200,
@@ -83,8 +106,16 @@ async function updateMascotaById(req, res) {
   try {
     const actualizada = await dbcvecinal.Mascota.update(
       {
-        titulo: dataMascotas.titulo,
-        descripcion: dataMascotas.descripcion,
+        nombre: dataMascotas.nombre,
+        tipo: dataMascotas.tipo,
+        raza: dataMascotas.raza,
+        edad: dataMascotas.edad,
+        sexo: dataMascotas.sexo,
+        tamano: dataMascotas.tamano,
+        condicion: dataMascotas.condicion,
+        lugar: dataMascotas.lugar,
+        contacto_nombre: dataMascotas.contacto_nombre,
+        contacto_telefono: dataMascotas.contacto_telefono,
         fecha: dataMascotas.fecha,
         imagen_url: dataMascotas.imagen_url,
       },
@@ -92,6 +123,15 @@ async function updateMascotaById(req, res) {
         where: { id },
       }
     );
+
+    // Si no se actualizó ninguna fila, devolvemos 404
+    if (actualizada[0] === 0) {
+      return res.status(404).json({
+        ok: false,
+        status: 404,
+        message: "Mascota no encontrada",
+      });
+    }
 
     res.status(200).json({
       ok: true,
