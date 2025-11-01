@@ -6,9 +6,9 @@ async function createAdopcion(req, res) {
     try {
         const crearAdopcion = await dbcvecinal.Adopcion.create({
             nombre: dataAdopciones.nombre,
-            apellido: dataAdopciones.apellido,
-            correo: dataAdopciones.correo,
-            adopcion: dataAdopciones.adopcion,
+            telefono: dataAdopciones.telefono,
+            direccion: dataAdopciones.direccion,
+            
         });
 
         res.status(201).json({
