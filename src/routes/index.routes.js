@@ -27,6 +27,8 @@ routes.use("/", bannerRoutes);
 const mascotaRoutes = require("./mascota.routes");
 routes.use("/", mascotaRoutes);
 
+const adopcionRoutes = require("./adopcion.routes");
+routes.use("/", adopcionRoutes);
 
 // NUEVA RUTA PARA AI
 const airoutes = require("./ai.routes");
